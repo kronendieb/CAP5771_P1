@@ -50,6 +50,23 @@ def frequent_itemsets_to_file(frequent_itemsets, transactions, output_file):
             support_count = int(row['support'] * total_transactions)
             file.write(f"{itemset}|{support_count}\n")
 
+def frequent_rules_to_file(frequent_rules, transactions, output_file):
+    total_transactions = len(transactions)
+
+    with open(output_file, 'w') as file:
+        for _, row in frequent_rules.iterrows():
+            lhs = " ".join(map(str,row['antecedents']))
+            rhs = " ".join(map(str,row['consequents']))
+            support_count = int(row['support'] * total_transactions)
+            confidence = int(row['confidence'])
+            file.write(f"{lhs}|{rhs}|{support_count}|{confidence}\n")
+
+def longest_transaction(transactions):
+
+    lengths = transactions.sum(axis=1)
+    longest = lengths.max()
+    return longest
+
 
 def main():
     args = parse_args()
@@ -61,6 +78,7 @@ def main():
     te = TransactionEncoder()
     te_arr = te.fit(data).transform(data)
     df = pd.DataFrame(te_arr, columns=te.columns_)
+    print(longest_transaction(df))
 
 
     frequent_itemsets = apriori_algorithm(df, min_support_count)
@@ -70,6 +88,7 @@ def main():
     print("Frequent Rules:\n", frequent_rules)
 
     frequent_itemsets_to_file(frequent_itemsets, df, "items_01.txt")
+    frequent_rules_to_file(frequent_rules, df, "rules_01.txt")
 
     return 0
 
