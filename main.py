@@ -29,21 +29,27 @@ def read_values(filename):
 
 def apriori_algorithm(transactions, minsuppc):
  
-    te = TransactionEncoder()
-    te_arr = te.fit(transactions).transform(transactions)
-    df = pd.DataFrame(te_arr, columns=te.columns_)
-
-    total_transactions = len(df)
+    total_transactions = len(transactions)
     min_support = minsuppc/total_transactions
     print(f'Total: {total_transactions}, Count: {minsuppc}, Support: {min_support}')
 
-    frequent_itemsets = apriori(df, min_support = min_support)
+    frequent_itemsets = apriori(transactions, min_support = min_support)
 
     return frequent_itemsets
 
 def generate_rules(frequent_itemsets, minconf):
     rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=minconf)
     return rules
+
+def frequent_itemsets_to_file(frequent_itemsets, transactions, output_file):
+    total_transactions = len(transactions)
+
+    with open(output_file, 'w') as file:
+        for _, row in frequent_itemsets.iterrows():
+            itemset = " ".join(map(str, row['itemsets']))
+            support_count = int(row['support'] * total_transactions)
+            file.write(f"{itemset}|{support_count}\n")
+
 
 def main():
     args = parse_args()
@@ -52,12 +58,18 @@ def main():
     min_confidence = args.minconf
 
     data = read_values(filename)
+    te = TransactionEncoder()
+    te_arr = te.fit(data).transform(data)
+    df = pd.DataFrame(te_arr, columns=te.columns_)
 
-    frequent_itemsets = apriori_algorithm(data, min_support_count)
+
+    frequent_itemsets = apriori_algorithm(df, min_support_count)
     print("Frequent Itemsets:\n", frequent_itemsets)
 
     frequent_rules = generate_rules(frequent_itemsets, min_confidence)
     print("Frequent Rules:\n", frequent_rules)
+
+    frequent_itemsets_to_file(frequent_itemsets, df, "items_01.txt")
 
     return 0
 
