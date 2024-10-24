@@ -113,6 +113,10 @@ def main():
     min_support_count = args.minsuppc
     min_confidence = args.minconf
 
+    items_filename = "items01.txt"
+    rules_filename = "rules01.txt"
+    info_filename = "info01.txt"
+
     data = read_values(filename)
     te = TransactionEncoder()
     te_arr = te.fit(data).transform(data)
@@ -134,9 +138,9 @@ def main():
     times[1] = end_time - start_time
     print(f"Done! Time taken to find frequent itemsets: {times[1]:.4f} seconds")
 
-    frequent_itemsets_to_file(frequent_itemsets, df, "items_01.txt")
-    frequent_rules_to_file(frequent_rules, df, "rules_01.txt")
-    info_to_file(args, df, frequent_itemsets, frequent_rules, times, "info_01.txt")
+    frequent_itemsets_to_file(frequent_itemsets, df, items_filename)
+    frequent_rules_to_file(frequent_rules, df, rules_filename)
+    info_to_file(args, df, frequent_itemsets, frequent_rules, times, info_filename)
 
     return 0
 
