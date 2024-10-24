@@ -11,5 +11,5 @@ Number of frequent 4-itemsets:17
 Total number of frequent itemsets:1195
 Number of high-confidence rules:365
 The rule with the highest confidence:7441|0|53|1.0000
-Time in seconds to find the frequent itemsets:2.9715425968170166
-Time in seconds to find the confident rules:0.008160591125488281
+Time in seconds to find the frequent itemsets:2.4675185680389404
+Time in seconds to find the confident rules:0.007171154022216797
