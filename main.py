@@ -1,5 +1,3 @@
-from functools import total_ordering
-from mlxtend import frequent_patterns
 import pandas as pd
 from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import apriori, association_rules
@@ -130,13 +128,15 @@ def main():
     end_time = time.time()
     times[0] = end_time - start_time
     print(f"Done! Time taken to find frequent itemsets: {times[0]:.4f} seconds")
+    print(frequent_itemsets)
 
     print("Finding rules with high confidence...")
     start_time = time.time()
     frequent_rules = generate_rules(frequent_itemsets, min_confidence)
     end_time = time.time()
     times[1] = end_time - start_time
-    print(f"Done! Time taken to find frequent itemsets: {times[1]:.4f} seconds")
+    print(f"Done! Time taken to find frequent rules: {times[1]:.4f} seconds")
+    print(frequent_rules)
 
     frequent_itemsets_to_file(frequent_itemsets, df, items_filename)
     frequent_rules_to_file(frequent_rules, df, rules_filename)
