@@ -49,7 +49,7 @@ def plot():
         num_rules.append(len(frequent_rules))
         times.append(end_time - start_time)
 
-    plot_data(minconf, num_rules, "Number of Rules Created vs Minimum Confidence", "Number of Rules Created", "Minimum Confidence")
+    plot_data(minconf, num_rules, "Number of Rules Created vs Minimum Confidence", "Minimum Confidence", "Number of Rules Created")
 
 
 

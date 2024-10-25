@@ -28,10 +28,12 @@ def read_values(filename):
 
 
 def apriori_algorithm(transactions, minsuppc):
+    if minsuppc < 0:
+        print("ERROR: Minimum support count must be greater than 0.")
+        return
  
     total_transactions = len(transactions)
     min_support = minsuppc/total_transactions
-    print(f'Total: {total_transactions}, Count: {minsuppc}, Support: {min_support}')
 
     frequent_itemsets = apriori(transactions, min_support = min_support)
 
@@ -40,6 +42,7 @@ def apriori_algorithm(transactions, minsuppc):
 def generate_rules(frequent_itemsets, minconf):
     if minconf < 0:
         return
+
     rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=minconf)
     return rules
 
@@ -55,6 +58,7 @@ def frequent_itemsets_to_file(frequent_itemsets, transactions, output_file):
 def frequent_rules_to_file(frequent_rules, transactions, output_file):
     if frequent_rules is None:
         return
+
     total_transactions = len(transactions)
 
     with open(output_file, 'w') as file:
