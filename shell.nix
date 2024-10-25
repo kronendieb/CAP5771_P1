@@ -14,6 +14,7 @@ in pkgs.mkShell{
     pythonPackages.venvShellHook
     pythonPackages.numpy
     pythonPackages.pandas
+    pythonPackages.matplotlib
     cudaPackages.cudatoolkit
     cudaPackages.cudnn
 
